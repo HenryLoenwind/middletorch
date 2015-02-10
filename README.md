@@ -7,4 +7,4 @@ The Middle Torch by Henry Loenwind
 
 Code is provided without guarantee of being error-free or optimal.
 
-Documentation is in the <a href="wiki">Wiki</a>.
+Documentation is in the <a href="https://github.com/HenryLoenwind/middletorch/wiki">Wiki</a>.
