@@ -1,0 +1,16 @@
+[
+{
+  "modid": "middletorch",
+  "name": "The Middle Torch",
+  "description": "Places a torch on key (e.g. the middle mouse button)",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Henry Loenwind"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
