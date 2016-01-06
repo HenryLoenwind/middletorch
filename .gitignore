@@ -35,7 +35,8 @@ local.properties
 /bin
 .gradle/
 build/
-eclipse/
+eclipse*/
+run/
 gradle/
 CREDITS-fml.txt
 LICENSE-fml.txt
