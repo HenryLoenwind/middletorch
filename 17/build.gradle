@@ -68,7 +68,7 @@ processResources
 }
 
 jar {
-    destinationDir = file 'dist'
+    destinationDir = file '../dist'
     includeEmptyDirs = false
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
