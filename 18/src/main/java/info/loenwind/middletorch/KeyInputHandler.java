@@ -1,7 +1,5 @@
 package info.loenwind.middletorch;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockTorch;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.item.ItemBlock;
@@ -50,10 +48,13 @@ public class KeyInputHandler {
       return false;
     }
     if (candidate.getItem() instanceof ItemBlock) {
-      Block block = ((ItemBlock) candidate.getItem()).block;
-      return block instanceof BlockTorch || "tile.decoration.stonetorch".equals(block.getUnlocalizedName());
+      return isTorchItem(((ItemBlock) candidate.getItem()).block.getUnlocalizedName());
     }
-    return "item.silentgems:TorchBandolier".equals(candidate.getItem().getUnlocalizedName(candidate));
+    return isTorchItem(candidate.getItem().getUnlocalizedName(candidate));
   }
 
+  private boolean isTorchItem(String unlocalizedName) {
+    return "tile.torch".equals(unlocalizedName) || "tile.decoration.stonetorch".equals(unlocalizedName)
+        || "item.silentgems:TorchBandolier".equals(unlocalizedName) || "tile.blockCarpentersTorch".equals(unlocalizedName);
+  }
 }
