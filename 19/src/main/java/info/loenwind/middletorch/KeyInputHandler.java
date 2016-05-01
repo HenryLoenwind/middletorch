@@ -5,6 +5,7 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -31,6 +32,9 @@ public class KeyInputHandler {
   public void onKeyInput(InputEvent.MouseInputEvent event) {
     if (keyBinding.isPressed()) {
       Minecraft mc = Minecraft.getMinecraft();
+	  if(mc.objectMouseOver.typeOfHit != RayTraceResult.Type.BLOCK )
+		  return;
+      
       int currentItem = mc.thePlayer.inventory.currentItem;
       for (int slot = 0; slot <= 8; slot++) {
         if (isTorchItem(mc.thePlayer.inventory.mainInventory[slot])) {
