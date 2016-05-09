@@ -1,14 +1,17 @@
 package info.loenwind.middletorch;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -19,8 +22,10 @@ public class KeyInputHandler {
 
   private static KeyInputHandler me;
   private static KeyBinding keyBinding;
+  private static Method rightClickMouse;
 
   public static void init() {
+    rightClickMouse = ReflectionHelper.findMethod(Minecraft.class, Minecraft.getMinecraft(), new String[] { "func_147121_ag", "rightClickMouse" });
     keyBinding = new KeyBinding("key.placetorch", Keyboard.CHAR_NONE, "key.categories.gameplay");
     me = new KeyInputHandler();
     ClientRegistry.registerKeyBinding(keyBinding);
@@ -34,10 +39,18 @@ public class KeyInputHandler {
       int currentItem = mc.thePlayer.inventory.currentItem;
       for (int slot = 0; slot <= 8; slot++) {
         if (isTorchItem(mc.thePlayer.inventory.mainInventory[slot])) {
-          mc.thePlayer.inventory.currentItem = slot;
-          mc.playerController.processRightClickBlock(mc.thePlayer, mc.theWorld, mc.thePlayer.inventory.mainInventory[slot], mc.objectMouseOver.getBlockPos(),
-              mc.objectMouseOver.sideHit, mc.objectMouseOver.hitVec, EnumHand.MAIN_HAND);
-          mc.thePlayer.inventory.currentItem = currentItem;
+          try {
+            mc.thePlayer.inventory.currentItem = slot;
+            rightClickMouse.invoke(mc);
+          } catch (IllegalAccessException e) {
+            e.printStackTrace();
+          } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+          } catch (InvocationTargetException e) {
+            e.printStackTrace();
+          } finally {
+            mc.thePlayer.inventory.currentItem = currentItem;
+          }
           return;
         }
       }
