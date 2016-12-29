@@ -17,7 +17,7 @@ buildscript {
 
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-version = "4.0.4"
+version = "4.0.5"
 group= "info.loenwind.middletorch" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "middletorch"
 
