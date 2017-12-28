@@ -1,0 +1,95 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            name = "forge"
+            url = "http://files.minecraftforge.net/maven"
+        }
+        maven {
+            name = "sonatype"
+            url = "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+    }
+}
+
+plugins {
+    id "com.matthewprenger.cursegradle" version "1.0.7"
+}
+
+apply plugin: 'net.minecraftforge.gradle.forge'
+
+version = "6.0." + System.getenv('BUILD_NUMBER')
+group= "info.loenwind.middletorch"
+archivesBaseName = "middletorch"
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+minecraft {
+    version = "1.12.2-14.23.1.2582"
+    runDir = "run"
+    mappings = "snapshot_20161227"
+}
+
+dependencies {
+}
+
+processResources
+{
+    // this will ensure that this task is redone when the versions change.
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    // replace stuff in mcmod.info, nothing else
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+                
+        // replace version and mcversion
+        expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
+        
+    // copy everything else, thats not the mcmod.info
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
+
+compileJava.doFirst {
+    String modFile = 'build/sources/main/java/info/loenwind/middletorch/MiddleTorchMod.java'
+    File modFileFile = new File(projectDir, modFile) 
+    String contents = modFileFile.getText('UTF-8')
+    // contents = contents.replaceAll('dependencies = ".*", guiFactory', 'dependencies = "' + project.ext.dependencies + '", guiFactory')
+    contents = contents.replaceAll('VERSION = ".*"', 'VERSION = "' + project.version + '"')
+    modFileFile.write(contents, 'UTF-8')
+}
+
+jar {
+    destinationDir = file '../dist'
+    includeEmptyDirs = false
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+jar.doLast { task ->
+    ant.checksum file: task.archivePath
+}
+
+boolean dev = System.getenv("RELEASE") == null || System.getenv("RELEASE").equalsIgnoreCase("false")
+tasks.curseforge.enabled = !dev && System.getenv("CURSEFORGE_KEY") != null
+
+curseforge {
+    if (System.getenv("CURSEFORGE_KEY") != null) {
+        apiKey = System.getenv("CURSEFORGE_KEY")
+    }
+
+    project {
+        id = "240490"
+        changelog = System.getenv('CHANGELOG') == null || System.getenv('CHANGELOG').equals('none') ? "NA" : System.getenv('CHANGELOG')
+        changelogType = 'html'
+        releaseType = "alpha"
+        mainArtifact(jar) {
+            displayName = "Version ${version} for Minecraft 1.11.2"
+        }
+    }
+}
