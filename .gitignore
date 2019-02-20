@@ -50,3 +50,5 @@ gradlew.bat
 .settings/
 out/*
 forge-*-changelog.txt
+
+1132/settings\.gradle

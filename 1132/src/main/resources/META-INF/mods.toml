@@ -1,0 +1,22 @@
+modLoader="javafml"
+loaderVersion="[25,)"
+[[mods]]
+  modId="middletorch"
+  version="${file.jarVersion}"
+  displayName="The Middle Torch"
+  authors="Henry Loenwind"
+  description='''
+  Places a torch on key (e.g. the middle mouse button)
+  '''
+[[dependencies.middletorch]]
+    modId="forge"
+    mandatory=true
+    versionRange="[25,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.middletorch]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.13.2]"
+    ordering="NONE"
+    side="BOTH"
