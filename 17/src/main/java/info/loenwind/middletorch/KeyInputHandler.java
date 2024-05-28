@@ -70,7 +70,8 @@ public class KeyInputHandler {
 
   private boolean isTorchItem(String unlocalizedName) {
     return "tile.torch".equals(unlocalizedName) || "tile.decoration.stonetorch".equals(unlocalizedName)
-        || "item.silentgems:TorchBandolier".equals(unlocalizedName) || "tile.blockCarpentersTorch".equals(unlocalizedName);
+        || "item.silentgems:TorchBandolier".equals(unlocalizedName) || "tile.blockCarpentersTorch".equals(unlocalizedName)
+        || "tile.gravity_torch".equals(unlocalizedName);
   }
 
 }
