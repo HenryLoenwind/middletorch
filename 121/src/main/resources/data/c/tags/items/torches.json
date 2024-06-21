@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:torch",
+    "minecraft:redstone_torch",
+    "minecraft:soul_torch"
+  ],
+  "optional": [
+    "tconstruct:stone_torch",
+    "gravitytorch:gravity_torch"
+  ]
+}
